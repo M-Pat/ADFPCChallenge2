@@ -23,11 +23,9 @@ class Program
                 if (string.IsNullOrWhiteSpace(command))
                     continue;
 
-                // Exit command
                 if (command.Equals("exit", StringComparison.OrdinalIgnoreCase))
                     break;
 
-                // Process commands
                 if (command.StartsWith("\\t "))
                 {
                     ShowTableDetails(connection, command.Substring(3));
@@ -78,7 +76,6 @@ class Program
         {
             using (var cmd = new NpgsqlCommand(query, connection))
             {
-                // Check if the query is a SELECT statement
                 if (query.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                 {
                     using (var reader = cmd.ExecuteReader())
@@ -88,7 +85,6 @@ class Program
                 }
                 else
                 {
-                    // For non-SELECT queries
                     int rowsAffected = cmd.ExecuteNonQuery();
                     Console.WriteLine(rowsAffected > 0 ? "Command executed successfully." : "No rows affected.");
                 }
@@ -108,10 +104,8 @@ class Program
             columnNames.Add(reader.GetName(i));
         }
 
-        // Print column names
         Console.WriteLine(string.Join("\t", columnNames));
 
-        // Print rows
         while (reader.Read())
         {
             var values = new List<string>();
